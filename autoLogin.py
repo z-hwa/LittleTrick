@@ -5,6 +5,7 @@
 from selenium import webdriver
 from PIL import Image
 from selenium.webdriver.common.by import By
+import os
 import openpyxl
 import ddddocr
 import time
@@ -39,7 +40,7 @@ print("\n\n")
 type = int(input("choose type which you want to use:"))
 
 if(type == 0):
-	total_try = int(max_row * 1.5)
+	total_try = int(max_row * 2)
 
 	# add data in chart to account & password
 	for i in range(1, max_row + 1):
@@ -49,7 +50,7 @@ elif(type == 1):
 	account_start = int(input("input a:"))
 	acount_end = int(input("input b:"))
 
-	total_try = int((acount_end - account_start) * 1.5)
+	total_try = int((acount_end - account_start + 1) * 2)
 
 	# add data in chart to account & password
 	for i in range(account_start, acount_end + 1):
@@ -101,19 +102,25 @@ for i in account:
 			# get item of captcha code
 			validation = driver.find_element_by_id("captcha")
 
-			# get four point of the validation cade image
-			left = validation.location["x"] + 150
-			right = validation.location["x"] + validation.size["width"] + 300
-			top = validation.location["y"] - 960
-			bottom = validation.location["y"] + validation.size["height"] - 940
+			# get image of captcha
+			validation.screenshot( str(times) + ".png")
 
-			# cut validation img out
-			img = Image.open(str(times) + ".png")
-			img = img.crop((left, top, right, bottom))
-			img.save(str(times) + ".png")
+			# # get four point of the validation cade image
+			# left = validation.location["x"] + 150
+			# right = validation.location["x"] + validation.size["width"] + 300
+			# top = validation.location["y"] - 960
+			# bottom = validation.location["y"] + validation.size["height"] - 940
+
+			# # cut validation img out
+			# img = Image.open(str(times) + ".png")
+			# img = img.crop((left, top, right, bottom))
+			# img.save(str(times) + ".png")
 
 			# get code by ddddocr
 			code = ValidationCodeRec(str(times) + ".png")
+
+			# delete captcha img
+			os.remove(str(times) + ".png")
 
 			# input validation cade
 			driver.find_element_by_name("captcha").clear()
