@@ -7,6 +7,7 @@ urllib3==1.26.2
 openpyxl  
 ddddocr  
 PTL  
+conda  
   
 how to use:  
 put your account into tha data.xlsx, first colume is account & second colume is password  

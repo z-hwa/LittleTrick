@@ -97,7 +97,7 @@ for i in account:
 			print("failure")
 
 			# save screen shot of the page
-			driver.save_screenshot(str(times) + ".png")
+			# driver.save_screenshot(str(times) + ".png")
 
 			# get item of captcha code
 			validation = driver.find_element_by_id("captcha")
@@ -119,9 +119,6 @@ for i in account:
 			# get code by ddddocr
 			code = ValidationCodeRec(str(times) + ".png")
 
-			# delete captcha img
-			os.remove(str(times) + ".png")
-
 			# input validation cade
 			driver.find_element_by_name("captcha").clear()
 			driver.find_element_by_name("captcha").send_keys(code)
@@ -130,7 +127,7 @@ for i in account:
 			driver.find_element(By.CSS_SELECTOR, ".button-5").click()
 
 			# wait until the page loading done
-			driver.implicitly_wait(2)
+			driver.implicitly_wait(4)
 		else:
 			print("success")
 
@@ -145,6 +142,10 @@ for i in account:
 
 			break
 
+	# delete captcha img
+	os.remove(str(times) + ".png")
+	
 	times = times + 1
 	time.sleep(3)
+	driver.save_screenshot(str(times) + "vote" + ".png")
 	driver.quit()
